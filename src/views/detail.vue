@@ -43,8 +43,8 @@
 				<p>希望您能通过直击真相平台了解到有关方面的知识和技能，懂得如何更好的保护自己和家人，并积极地把平台推荐和分享给您的亲朋好友，让他们尽早地远离欺骗和伤害！</p>
 				<p class="red">直击真相App：多一个人看到，就少一个人受骗！</p>
 			</div>
-			<div class="ac download">
-				<a :href="downloadLink">下载App揭秘世间真相</a>
+			<div class="ac download" @click="goDowload">
+				下载App揭秘世间真相
 			</div>
 	</section>
 </template>
@@ -75,31 +75,30 @@ export default {
         	commentNum:0,
         	fileRoot:config.fileRoot+'/',
         	playerOptions : {
-				// playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
-				// autoplay: false, //如果true,浏览器准备好时开始回放。
-				// muted: false, // 默认情况下将会消除任何音频。
-				// loop: false, // 导致视频一结束就重新开始。
-				preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
-				language: 'zh-CN',
-				aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
-				fluid: true, // 当true时，Video.jsplayer将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
-				sources: [
-					{
-						type: "video/mp4",
-						src: "" //url地址
+						// playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+						// autoplay: false, //如果true,浏览器准备好时开始回放。
+						// muted: false, // 默认情况下将会消除任何音频。
+						// loop: false, // 导致视频一结束就重新开始。
+						preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+						language: 'zh-CN',
+						aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+						fluid: true, // 当true时，Video.jsplayer将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+						sources: [
+							{
+								type: "video/mp4",
+								src: "" //url地址
+							}
+						],
+						poster: "", //你的封面地址
+						// width: document.documentElement.clientWidth,
+						notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+						controlBar: {
+							timeDivider: false,
+							durationDisplay: false,
+							remainingTimeDisplay: false,
+							fullscreenToggle: true //全屏按钮
+						}
 					}
-				],
-				poster: "", //你的封面地址
-				// width: document.documentElement.clientWidth,
-				notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-				controlBar: {
-					timeDivider: false,
-					durationDisplay: false,
-					remainingTimeDisplay: false,
-					fullscreenToggle: true //全屏按钮
-				}
-			},
-			downloadLink:config.download
         }
     },
     mounted(){
@@ -108,54 +107,69 @@ export default {
     },
     methods:{
     	init(){
-			if (!this.id) {
-				// alert('，请返回！')
-				Toast({message: '获取出错，请重试',position: 'top',duration:2000});
-				return;
-			}
-			//获取文章信息
-			let resArticleDetail = articleService.getArticleById(this.id);
-			if (resArticleDetail&&resArticleDetail.status == "success") {
-				this.article = resArticleDetail.record;
-				// if(!this.article.content){
-				// 	this.iconShow = false;
-				// }else{
-				// 	this.iconShow = true;
-				// }
-			}
+				if (!this.id) {
+					// alert('，请返回！')
+					Toast({message: '获取出错，请重试',position: 'top',duration:2000});
+					return;
+				}
+				//获取文章信息
+				let resArticleDetail = articleService.getArticleById(this.id);
+				if (resArticleDetail&&resArticleDetail.status == "success") {
+					this.article = resArticleDetail.record;
+					// if(!this.article.content){
+					// 	this.iconShow = false;
+					// }else{
+					// 	this.iconShow = true;
+					// }
+				}
 
-			//获取发布人信息
-			let resUserInfo = userService.getUserById(this.article.author);
-			if (resUserInfo && resUserInfo.status == "success") {
-				this.artUser = resUserInfo.result.user;
-			}
-			// console.log(resUserInfo)
-			// 文章附件 图片
-			if (this.article.type != 3) {
-				articleFileService.getFileByArticle(this.article.id,(data)=>{
-					if (data && data.status == "success") {
-						if (this.article.type == 1) {
-							this.ArticleFile = data.result.filelist;
-						}else if(this.article.type == 2){
-							this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
-							this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
+				//获取发布人信息
+				let resUserInfo = userService.getUserById(this.article.author);
+				if (resUserInfo && resUserInfo.status == "success") {
+					this.artUser = resUserInfo.result.user;
+				}
+				// console.log(resUserInfo)
+				// 文章附件 图片
+				if (this.article.type != 3) {
+					articleFileService.getFileByArticle(this.article.id,(data)=>{
+						if (data && data.status == "success") {
+							if (this.article.type == 1) {
+								this.ArticleFile = data.result.filelist;
+							}else if(this.article.type == 2){
+								this.playerOptions.sources[0].src = this.fileRoot + data.result.filelist[0].url;
+								this.playerOptions.poster = this.fileRoot + data.result.filelist[0].thumbnail;
+							}
 						}
+					});
+				}
+				//获取评论数量
+				articleCommentService.getArticleCommentCount(this.id,(data)=>{
+					if (data.status == "success") {
+						this.commentNum = data.result.count;
+						this.commentNum = this.$Tool.numConvertText(this.commentNum);
 					}
 				});
+				/*versionService.getNewVersion(data=>{
+					if (data && data.status === 'success') {
+						this.downloadLink = data.link;
+					}
+				});*/
+			},
+			goDowload() {
+				let ua = navigator.userAgent.toLowerCase();
+        let isAndroid = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1;
+        let isiOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        if(isWeixinBrowser){
+          if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            window.location.href = "https://itunes.apple.com/cn/app/%E7%9B%B4%E5%87%BB%E7%9C%9F%E7%9B%B8/id1450056517?mt=8";
+          }else if (/(Android)/i.test(navigator.userAgent)){
+            window.location.href = "https://wap.pp.cn/app_z5q5zyZIcxe/";
+          }
+        }
+        function isWeixinBrowser() {
+          return (/micromessenger/.test(ua)) ? true : false;
+        }
 			}
-			//获取评论数量
-			articleCommentService.getArticleCommentCount(this.id,(data)=>{
-				if (data.status == "success") {
-					this.commentNum = data.result.count;
-					this.commentNum = this.$Tool.numConvertText(this.commentNum);
-				}
-			});
-			/*versionService.getNewVersion(data=>{
-				if (data && data.status === 'success') {
-					this.downloadLink = data.link;
-				}
-			});*/
-		},
     }
 }
 </script>
