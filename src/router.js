@@ -17,10 +17,12 @@ export default new Router({
     {
       path: '/detail',
       name: 'detail',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/detail.vue')
+      component: () => import('./views/detail.vue')
+    },
+    {
+      path: '/wendaDetail',
+      name: 'wendaDetail',
+      component: () => import( './views/wendaDetail.vue')
     },
     {
       path: '/login',
