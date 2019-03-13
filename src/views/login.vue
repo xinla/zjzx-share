@@ -54,7 +54,7 @@
 		<div v-else class="ac cc">
 			<p>为好友助力成功！</p>
 			<p>赶紧去下载直击真相，和好友一起看真相吧!</p>
-			<p><a :href="downloadLink">点击下载</a></p>
+			<p><a href="http://wx.zjzx.xyz:8381/download.html">点击下载</a></p>
 		</div>
 	</div>
 </template>
@@ -84,17 +84,17 @@ export default{
 			mobileDesc:'',
 			codeDesc:'',
 			isLogined:false,
-			downloadLink:'aa',
+			downloadLink:'',
 			isAgree:false
 		}
 	},
-	mounted(){
-		versionService.getNewVersion(data=>{
-			if (data && data.status === 'success') {
-				this.downloadLink = data.link;
-			}
-		});
-	},
+	// mounted(){
+	// 	versionService.getNewVersion(data=>{
+	// 		if (data && data.status === 'success') {
+	// 			this.downloadLink = data.link;
+	// 		}
+	// 	});
+	// },
 	computed:{
 		// 检测手机号是否错误
 		mobileErr(){

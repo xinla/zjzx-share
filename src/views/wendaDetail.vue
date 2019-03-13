@@ -32,8 +32,8 @@
                     <p>希望您能通过直击真相平台了解到有关方面的知识和技能，懂得如何更好的保护自己和家人，并积极地把平台推荐和分享给您的亲朋好友，让他们尽早地远离欺骗和伤害！</p>
                     <p class="red">直击真相App：多一个人看到，就少一个人受骗！</p>
                 </div>
-                <div class="download" @click="handleDownload">
-                    下载APP揭秘世间真相
+                <div class="download">
+                    <a href="http://wx.zjzx.xyz:8381/download.html">下载App揭秘世间真相</a>
                 </div>
             </div>
         </div>

@@ -43,8 +43,8 @@
 				<p>希望您能通过直击真相平台了解到有关方面的知识和技能，懂得如何更好的保护自己和家人，并积极地把平台推荐和分享给您的亲朋好友，让他们尽早地远离欺骗和伤害！</p>
 				<p class="red">直击真相App：多一个人看到，就少一个人受骗！</p>
 			</div>
-			<div class="ac download" @click="goDowload">
-				下载App揭秘世间真相
+			<div class="ac download">
+				<a href="http://wx.zjzx.xyz:8381/download.html">下载App揭秘世间真相</a>
 			</div>
 	</section>
 </template>
@@ -156,19 +156,7 @@ export default {
 				});*/
 			},
 			goDowload() {
-				let ua = navigator.userAgent.toLowerCase();
-        let isAndroid = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1;
-        let isiOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-        if(isWeixinBrowser){
-          if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-            window.location.href = "https://itunes.apple.com/cn/app/%E7%9B%B4%E5%87%BB%E7%9C%9F%E7%9B%B8/id1450056517?mt=8";
-          }else if (/(Android)/i.test(navigator.userAgent)){
-            window.location.href = "https://wap.pp.cn/app_z5q5zyZIcxe/";
-          }
-        }
-        function isWeixinBrowser() {
-          return (/micromessenger/.test(ua)) ? true : false;
-        }
+				window.location.href = 'http://wx.zjzx.xyz:8381/download.html'
 			}
     }
 }
