@@ -10,7 +10,7 @@
 						</div>
 						<div class="ts utime">
 							<time v-text="$Tool.publishTimeFormat(article.publishtime)"></time>
-							<span>{{ commentNum }}评论</span>
+							<!-- <span>{{ commentNum }}评论</span> -->
 						</div>
 					</div>
 				<button type="button" class="focus bfc-p fr">关注</button>
@@ -143,12 +143,12 @@ export default {
 					});
 				}
 				//获取评论数量
-				articleCommentService.getArticleCommentCount(this.id,(data)=>{
+				/*articleCommentService.getArticleCommentCount(this.id,(data)=>{
 					if (data.status == "success") {
 						this.commentNum = data.result.count;
 						this.commentNum = this.$Tool.numConvertText(this.commentNum);
 					}
-				});
+				});*/
 				/*versionService.getNewVersion(data=>{
 					if (data && data.status === 'success') {
 						this.downloadLink = data.link;
